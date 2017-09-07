@@ -1,0 +1,29 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <vpn xmlns="http://com/example/l3vpn">
+    <l3vpn>
+      <name>skoda</name>
+      <as-number>61000</as-number>
+      <endpoint>
+        <id>tokyo-office</id>
+        <ce-device>ce0</ce-device>
+        <ce-interface>GigabitEthernet2</ce-interface>
+        <ip-network>10.0.0.0/24</ip-network>
+        <bandwidth>10000000</bandwidth>
+      </endpoint>
+      <endpoint>
+        <id>newyork-office</id>
+        <ce-device>ce3</ce-device>
+        <ce-interface>GigabitEthernet0/2</ce-interface>
+        <ip-network>10.1.0.0/24</ip-network>
+        <bandwidth>2000000</bandwidth>
+      </endpoint>
+      <endpoint>
+        <id>riodejaneiro-office</id>
+        <ce-device>ce6</ce-device>
+        <ce-interface>GigabitEthernet0/2</ce-interface>
+        <ip-network>10.0.0.0/24</ip-network>
+        <bandwidth>10000000</bandwidth>
+      </endpoint>
+    </l3vpn>
+  </vpn>
+</config>

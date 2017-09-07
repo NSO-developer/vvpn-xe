@@ -1,0 +1,46 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device tags="nocreate">
+      <name>{$CE}</name>
+      <config>
+        <ip xmlns="urn:ios" tags="merge">
+          <access-list>
+            <extended>
+              <ext-named-acl>
+                <name>{$ACL_NAME}</name>
+                <ext-access-list-rule>
+                  <rule>permit {$PROTOCOL} {$SOURCE_IP_ADR} {$SOURCE_WMASK} {$DEST_IP_ADR} {$DEST_WMASK} range {$PORT_START} {$PORT_END}</rule>
+                </ext-access-list-rule>
+              </ext-named-acl>
+            </extended>
+          </access-list>
+        </ip>
+
+        <!-- IOS over NETCONF -->
+        <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native" tags="merge">
+          <ip>
+            <access-list>
+              <extended xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-acl">
+                <name>{$ACL_NAME}</name>
+                <access-list-seq-rule>
+                  <sequence>10</sequence>
+                  <ace-rule>
+                    <action>permit</action>
+                    <protocol>{$PROTOCOL}</protocol>
+                    <any/><!-- FIXME: {$SOURCE_IP_ADR} {$SOURCE_WMASK} -->
+                    <dst-any/><!-- FIXME: {$DEST_IP_ADR} {$DEST_WMASK} -->
+                    <dst-range1 when="{boolean($PORT_START) and boolean($PORT_END) and ($PORT_START!=$PORT_END)}">{$PORT_START}</dst-range1>
+                    <dst-range2 when="{boolean($PORT_START) and boolean($PORT_END) and ($PORT_START!=$PORT_END)}">{$PORT_END}</dst-range2>
+                    <dst-eq when="{boolean($PORT_START) and (not($PORT_END) or ($PORT_END=$PORT_START))}">{$PORT_START}</dst-eq>
+                  </ace-rule>
+                </access-list-seq-rule>
+              </extended>
+            </access-list>
+          </ip>
+        </native>
+        <!-- End of IOS over NETCONF -->
+
+      </config>
+    </device>
+  </devices>
+</config-template>

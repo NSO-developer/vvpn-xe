@@ -1,0 +1,35 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device tags="nocreate">
+      <name>{$CE}</name>
+      <config>
+        <class-map xmlns="urn:ios" tags="merge">
+          <name>{$CLASS_NAME}</name>
+          <prematch>match-any</prematch>
+          <match>
+            <access-group>
+              <name>{$MATCH_ENTRY}</name>
+            </access-group>
+          </match>
+        </class-map>
+
+        <!-- IOS over NETCONF -->
+        <native xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-native" tags="merge">
+          <policy>
+            <class-map xmlns="http://cisco.com/ns/yang/Cisco-IOS-XE-policy">
+              <name>{$CLASS_NAME}</name>
+              <prematch>match-any</prematch>
+              <match>
+                <access-group>
+                  <name>{$MATCH_ENTRY}</name>
+                </access-group>
+              </match>
+            </class-map>
+          </policy>
+        </native>
+        <!-- End of IOS over NETCONF -->
+
+      </config>
+    </device>
+  </devices>
+</config-template>
